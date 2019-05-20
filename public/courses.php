@@ -24,7 +24,7 @@
 				<div style="height:50px;"></div>
 			</div>	
 		<br>
-		<span class="pull-left"><a href="#addnewcourses" data-toggle="modal" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add New</a></span>
+		 <span class="pull-left"><a href="#addnewcourses" data-toggle="modal" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add New</a></span>
 		 <span style="padding-left:5px" class="pull-right"><a href="#exportcourses" data-toggle="modal" class="btn btn-success"><span class="glyphicon glyphicon-share"></span>  Export</a></span>
 		 <span class="pull-right"><a href="#importcourses" data-toggle="modal" class="btn btn-info"><span class="glyphicon glyphicon-share"></span>  Import</a></span>
 		<div style="height:50px;"></div>

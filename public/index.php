@@ -25,14 +25,10 @@
 			</div>
 		<br>
 		<div style="height:50px;"></div>
-		<span style="font-size:15px; color:Grey"><center><strong>About this tool</strong></center></span><br>
-		<span style="font-size:15px; color:Grey"><center>Only basic functionality for now!</strong></span><br><br>
-		
-		<span style="font-size:12px; color:Grey"><center>The function of this tool is to build your CSV files without having to upload them to Apple School Manager Manager</center></span>
-		<span style="font-size:12px; color:Grey"><center>Once you are satisfied with each table, you can export the individual CSV files and upload them to Apple School Manager Manager</center></span><br>
-		<span style="font-size:12px; color:Grey"><center>Formatting of the CSV files have carefully been formatted for you to confidently upload without fear of formatting errors</center></span>
-		<br><br><br><br>
-	</div>
+		<span style="font-size:15px; color:Grey"><center><strong></strong></span>
+		<br>		
+			
+</center>
 </div>
 </body>
 </html>

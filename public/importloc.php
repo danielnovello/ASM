@@ -1,3 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Apple School Manager CSV Manager | Locations</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+	<link href="css/style.css" rel="stylesheet">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+	<div style="height:50px;"></div>
+	<div class="well" style="margin:auto; padding:auto; width:100%;">
+		<br>
+		<H2><center>			
 <?php
 include('db/conn.php');
 	
@@ -12,6 +28,8 @@ if(isset($_POST["submit"])) {
         echo "File is a CSV - " . $check["mime"] . ".";
         $uploadOk = 1;
     } else {
+	    echo "<img src='img/cross.png' width='100'/>";
+	    echo "<br>";
         echo "File is not a CSV. Nothing has changed. Redirecting back to homepage...";
         $uploadOk = 0;
     }
@@ -28,6 +46,8 @@ if ($_FILES["fileToUpload"]["size"] > 500000) {
 }
 // Allow certain file formats
 if($imageFileName != "locations.csv" ) {
+	echo "<img src='img/cross.png' width='100'/>";
+	echo "<br><br>";
     echo "Sorry, only locations.csv is allowed.";
     $uploadOk = 0;
     header( "Refresh:5; url=locations.php", true, 303);
@@ -38,7 +58,9 @@ if ($uploadOk == 0) {
 // if everything is ok, try to upload file
 } else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        echo " The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+	    echo "<img src='img/tick.jpg' width='100'/>";
+	    echo "<br>";
+        echo " The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded. Redirecting back to homepage...";
         if (empty($_POST["dumplocations"]) ) 
 			{
 				$fileName = "import/locations.csv";          
@@ -85,5 +107,21 @@ if ($uploadOk == 0) {
 				echo "";
     	}
 	}    
-?>
+?>		
+		</center></H2>
+	</div>
+	<?php include('add_modal.php'); ?>
+</div>
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+</body>
+</html>
  

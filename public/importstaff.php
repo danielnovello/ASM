@@ -1,10 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Apple School Manager CSV Manager | Staff</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+	<link href="css/style.css" rel="stylesheet">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+	<div style="height:50px;"></div>
+	<div class="well" style="margin:auto; padding:auto; width:100%;">
+		<br>
+		<H2><center>	
 <?php
 include('db/conn.php');
 	
 $target_dir = "import/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
-$imageFileName = strtolower(pathinfo($target_file,PATHINFO_FILENAME));
+$imageFileName = strtolower(pathinfo($target_file,PATHINFO_BASENAME));
 // Check if image file is a actual image or fake image
 if(isset($_POST["submit"])) {
     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
@@ -27,9 +43,12 @@ if ($_FILES["fileToUpload"]["size"] > 500000) {
     $uploadOk = 0;
 }
 // Allow certain file formats
-if($imageFileName != "staff" ) {
-    echo " Sorry, only staff.csv is allowed. Nothing has changed. Redirecting back to homepage...";
+if($imageFileName != "staff.csv" ) {
+	echo "<img src='img/cross.png' width='100'/>";
+	echo "<br><br>";
+    echo "Sorry, only staff.csv is allowed.";
     $uploadOk = 0;
+    header( "Refresh:5; url=staff.php", true, 303);
 }
 // Check if $uploadOk is set to 0 by an error
 if ($uploadOk == 0) {
@@ -37,23 +56,36 @@ if ($uploadOk == 0) {
 // if everything is ok, try to upload file
 } else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        echo " The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
-    } else {
-        echo " Sorry, there was an error uploading your file. Nothing has changed. Redirecting back to homepage...";
-    }
-}
-?>
-
-
-<?php
-include('db/conn.php');	
-
-if (empty($_POST["dumpstaff"]) ) 
-  {
-    $fileName = "import/staff.csv";          
-        $file = fopen($fileName, "r");    
-        fgets($file);
-        while (($column = fgetcsv($file, 10000, ",")) !== FALSE) {
+	    echo "<img src='img/tick.jpg' width='100'/>";
+	    echo "<br>";
+        echo " The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded. Redirecting back to homepage...";
+        if (empty($_POST["dumpstaff"]) ) 
+			{
+				$fileName = "import/staff.csv";          
+				$file = fopen($fileName, "r");    
+					fgets($file);
+			while (($column = fgetcsv($file, 10000, ",")) !== FALSE) {
+				$sqlInsertappend = "INSERT into staff (staff_person_id, staff_person_number, staff_first_name, staff_middle_name, staff_last_name, staff_email_address, staff_sis_username, location_id)
+                   values ('" . $column[0] . "','" . $column[1] . "','" . $column[2] . "','" . $column[3] . "','" . $column[4] . "','" . $column[5] . "','" . $column[6] . "','" . $column[7] . "')";       
+				$resultappend = mysqli_query($conn, $sqlInsertappend);     
+			if (! empty($resultappend)) {
+                $type = "success";
+                $message = "CSV Data Imported into the Database";
+                //Cleanup
+                $pathtofile="import/staff.csv";  
+            if(unlink($pathtofile));
+            } else {
+                $type = "error";
+                $message = "Problem in Importing CSV Data";
+            }
+        }
+	header( "Refresh:5; url=staff.php", true, 303);  
+			} else {
+				$resulttrunc = mysqli_query($conn, "DELETE FROM `staff`");
+				$fileName = "import/staff.csv";          
+				$file = fopen($fileName, "r");    
+					fgets($file);
+			while (($column = fgetcsv($file, 10000, ",")) !== FALSE) {
             $sqlInsert = "INSERT into staff (staff_person_id, staff_person_number, staff_first_name, staff_middle_name, staff_last_name, staff_email_address, staff_sis_username, location_id)
                    values ('" . $column[0] . "','" . $column[1] . "','" . $column[2] . "','" . $column[3] . "','" . $column[4] . "','" . $column[5] . "','" . $column[6] . "','" . $column[7] . "')";
             $result = mysqli_query($conn, $sqlInsert);     
@@ -67,29 +99,28 @@ if (empty($_POST["dumpstaff"]) )
                 $type = "error";
                 $message = "Problem in Importing CSV Data";
             }
-        }
-    header( "Refresh:5; url=staff.php", true, 303); 
-} else {
-	$resulttrunc = mysqli_query($conn, "DELETE FROM `staff`");   
-	$fileName = "import/staff.csv";          
-        $file = fopen($fileName, "r");    
-        fgets($file);
-        while (($column = fgetcsv($file, 10000, ",")) !== FALSE) {
-            $sqlInsert = "INSERT into staff (staff_person_id, staff_person_number, staff_first_name, staff_middle_name, staff_last_name, staff_email_address, staff_sis_username, location_id)
-                   values ('" . $column[0] . "','" . $column[1] . "','" . $column[2] . "','" . $column[3] . "','" . $column[4] . "','" . $column[5] . "','" . $column[6] . "','" . $column[7] . "')";
-            $result = mysqli_query($conn, $sqlInsert);     
-            if (! empty($result)) {
-                $type = "success";
-                $message = "CSV Data Imported into the Database";
-                //Cleanup
-                $pathtofile="import/staff.csv";  
-                if(unlink($pathtofile));
-            } else {
-                $type = "error";
-                $message = "Problem in Importing CSV Data";
-            }
-        }
-    header( "Refresh:5; url=staff.php", true, 303);  
-}  
-?>
+  		}
+  	header( "Refresh:5; url=staff.php", true, 303);
+		}   
+    		} else {
+				echo "";
+    	}
+	}    
+?>			
+		</center></H2>	
+	</div>
+	<?php include('add_modal.php'); ?>
+</div>
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+</body>
+</html>
  
