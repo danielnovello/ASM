@@ -7,7 +7,7 @@ Apple School Manager | CSV Manager
 
 Copy all files to Webroot
 
-Edit the config in /public/db/conn.php
+Edit the config in /public/db/conn.php & /public/functions/db.php
 
 Import the asm.sql database in /db
 
