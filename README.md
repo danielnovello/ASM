@@ -5,6 +5,9 @@ Apple School Manager | CSV Manager
 
 ![alt text](https://github.com/djquazzi/ASM/blob/master/Pics/Courses.png)
 
+*How To:*
+
+
 Copy all files to Webroot
 
 Edit the config in `/public/db/conn.php` & `/public/functions/db.php`
