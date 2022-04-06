@@ -61,7 +61,6 @@
         "tecnickcom/tcpdf": "^6.2",
         "phpunit/phpunit": "^5.7",
         "doctrine/instantiator": "^1.0.0",
-        "dompdf/dompdf": "^0.8.0",
         "mpdf/mpdf": "^7.0.0",
         "jpgraph/jpgraph": "^4.0",
         "friendsofphp/php-cs-fixer": "@stable",
